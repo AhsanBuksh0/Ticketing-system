@@ -1,0 +1,30 @@
+class Tickets:
+    counter = 2000 # static counter for ticket numbers
+    open_tickets = []
+    closed_tickets = []
+
+    def __init__(self, staff_id, creator_name, contact_email, description):
+        self.ticket_number = Ticket.counter
+        Ticket.counter += 1
+        self.staff_id = staff_id
+        self.creator_name = creator_name
+        self.contact_email = contact_email
+        self.description = description
+        self.response = "Not Yet Provided"
+        self.status = "Open"
+
+        def submit_ticket(self):
+            Ticket.open_tickets.append(self)
+            print(f"Ticket {self.ticket_number} has been submited.")
+
+        def respond_to_ticket(self, response):
+            self.response = response
+            if "Password change" in self.description:
+                self.resolve_password_change()
+            else:
+                self.status = "Closed"
+                Tickets.closed_tickets.append(self)
+                Tickets.open_tickets.remove(self)
+        
+        def reslove_password_change(self):
+            
