@@ -13,11 +13,11 @@ class Tickets:
         self.response = "Not Yet Provided"
         self.status = "Open"
 
-        def submit_ticket(self):
+    def submit_ticket(self):
             Ticket.open_tickets.append(self)
             print(f"Ticket {self.ticket_number} has been submited.")
 
-        def respond_to_ticket(self, response):
+    def respond_to_ticket(self, response):
             self.response = response
             if "Password change" in self.description:
                 self.resolve_password_change()
@@ -26,5 +26,27 @@ class Tickets:
                 Tickets.closed_tickets.append(self)
                 Tickets.open_tickets.remove(self)
         
-        def reslove_password_change(self):
-            
+    def reslove_password_change(self):
+         new_password = f"{self.staff_id[:2]}{self.creator_name[:3]}"
+         self.response = f"Password Change New Password is {new_password}"
+         self.status = "Closed"
+         Tickets.closed_tickets.append(self)
+         Tickets.open_tickets.remove(self)
+    def reopen_ticket(self):
+         if self.status == "Closed":
+              self.status = "Reopened"
+              Tickets.open_tickets.append(self)
+              Tickets.closed_tickets.remove(self)
+
+    @staticmethod
+    def print_ticket_info(ticket):
+         print(f"Ticket Number: {ticket.ticket_number}")
+         print(f"Ticket Creator: {ticket.creator_name}")
+         print(f"Staff ID: {ticket.staff_id}")
+         print(f"Contact Email: {ticket.contact_email}")
+         print(f"Description: {Tickets.description}")
+         print(f"Response: {ticket.response}")
+         print(f"Status: {ticket.status}")
+         print()
+         
+
