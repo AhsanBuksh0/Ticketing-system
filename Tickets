@@ -1,52 +1,47 @@
-class Tickets:
-    counter = 2000 # static counter for ticket numbers
-    open_tickets = []
-    closed_tickets = []
+class Ticket:
+    ticket_counter = 2000
+    open_tickets = 0
+    resolved_tickets = 0
 
     def __init__(self, staff_id, creator_name, contact_email, description):
-        self.ticket_number = Ticket.counter
-        Ticket.counter += 1
+        self.ticket_number = Ticket.ticket_counter
+        Ticket.ticket_counter += 1
         self.staff_id = staff_id
         self.creator_name = creator_name
         self.contact_email = contact_email
         self.description = description
         self.response = "Not Yet Provided"
         self.status = "Open"
+        Ticket.open_tickets += 1
 
-    def submit_ticket(self):
-            Ticket.open_tickets.append(self)
-            print(f"Ticket {self.ticket_number} has been submited.")
+    def submit_response(self, response):
+        self.response = response
+        self.status = "Closed"
+        Ticket.open_tickets -= 1
+        Ticket.resolved_tickets += 1
 
-    def respond_to_ticket(self, response):
-            self.response = response
-            if "Password change" in self.description:
-                self.resolve_password_change()
-            else:
-                self.status = "Closed"
-                Tickets.closed_tickets.append(self)
-                Tickets.open_tickets.remove(self)
-        
-    def reslove_password_change(self):
-         new_password = f"{self.staff_id[:2]}{self.creator_name[:3]}"
-         self.response = f"Password Change New Password is {new_password}"
-         self.status = "Closed"
-         Tickets.closed_tickets.append(self)
-         Tickets.open_tickets.remove(self)
     def reopen_ticket(self):
-         if self.status == "Closed":
-              self.status = "Reopened"
-              Tickets.open_tickets.append(self)
-              Tickets.closed_tickets.remove(self)
+        self.status = "Reopened"
+        Ticket.open_tickets += 1
+        Ticket.resolved_tickets -= 1
 
-    @staticmethod
-    def print_ticket_info(ticket):
-         print(f"Ticket Number: {ticket.ticket_number}")
-         print(f"Ticket Creator: {ticket.creator_name}")
-         print(f"Staff ID: {ticket.staff_id}")
-         print(f"Contact Email: {ticket.contact_email}")
-         print(f"Description: {Tickets.description}")
-         print(f"Response: {ticket.response}")
-         print(f"Status: {ticket.status}")
-         print()
-         
+    def resolve_password_change(self):
+        if "Password change" in self.description:
+            new_password = self.staff_id[:2] + self.creator_name[:3]
+            self.response = f"New password generated: {new_password}"
+            self.status = "Closed"
+            Ticket.open_tickets -= 1
+            Ticket.resolved_tickets += 1
 
+    def display_ticket_info(self):
+        print(f"Ticket Number: {self.ticket_number}")
+        print(f"Ticket Creator: {self.creator_name}")
+        print(f"Staff ID: {self.staff_id}")
+        print(f"Email Address: {self.contact_email}")
+        print(f"Description: {self.description}")
+        print(f"Response: {self.response}")
+        print(f"Ticket Status: {self.status}\n")
+
+    @classmethod
+    def ticket_stats(cls):
+        return f"Tickets Created: {cls.ticket_counter - 2000}\nTickets Resolved: {cls.resolved_tickets}\nTickets To Solve: {cls.open_tickets}"
