@@ -25,10 +25,9 @@ class Ticket:
         Ticket.open_tickets += 1
         Ticket.resolved_tickets -= 1
 
-    def resolve_password_change(self):
-        if "Password change" in self.description:
-            new_password = self.staff_id[:2] + self.creator_name[:3]
-            self.response = f"New password generated: {new_password}"
+    def resolve_password_change(self, new_password):
+        if "Password Change" in self.description:
+            self.response = f"Password changed to: {new_password}"
             self.status = "Closed"
             Ticket.open_tickets -= 1
             Ticket.resolved_tickets += 1
@@ -45,3 +44,12 @@ class Ticket:
     @classmethod
     def ticket_stats(cls):
         return f"Tickets Created: {cls.ticket_counter - 2000}\nTickets Resolved: {cls.resolved_tickets}\nTickets To Solve: {cls.open_tickets}"
+
+
+def main():
+    tickets = []
+
+    # Creating some sample tickets
+    tickets.append(Ticket("BUKSH", "Ahsan Buksh", "ahsanB@gmail.com", "My monitor stopped working"))
+    tickets.append(Ticket("AHMAD", "Amaan Ahmad", "amaanA@gmail.com", "Request for a videocamera to conduct webinars"))
+    tickets.append(Ticket("AZIZ", "Musawwir Aziz", "musawwirA@gmail.com", "Password Change Request"))
