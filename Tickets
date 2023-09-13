@@ -50,6 +50,6 @@ def main():
     tickets = []
 
     # Creating some sample tickets
-    tickets.append(Ticket("BUKSH", "Ahsan Buksh", "ahsanB@gmail.com", "My monitor stopped working"))
+    tickets.append(Ticket("AHSAN", "Ahsan Buksh", "ahsanB@gmail.com", "My monitor stopped working"))
     tickets.append(Ticket("AHMAD", "Amaan Ahmad", "amaanA@gmail.com", "Request for a videocamera to conduct webinars"))
     tickets.append(Ticket("AZIZ", "Musawwir Aziz", "musawwirA@gmail.com", "Password Change Request"))
