@@ -1,8 +1,10 @@
+# Class variables to keep track of ticket counts and statuses
 class Ticket:
     ticket_counter = 2000
     open_tickets = 0
     resolved_tickets = 0
 
+    # Ticket attributes
     def __init__(self, staff_id, creator_name, contact_email, description):
         self.ticket_number = Ticket.ticket_counter
         Ticket.ticket_counter += 1
@@ -14,17 +16,20 @@ class Ticket:
         self.status = "Open"
         Ticket.open_tickets += 1
 
+    # Method to submit a response
     def submit_response(self, response):
         self.response = response
         self.status = "Closed"
         Ticket.open_tickets -= 1
         Ticket.resolved_tickets += 1
 
+    #  Reopening a closed ticket
     def reopen_ticket(self):
         self.status = "Reopened"
         Ticket.open_tickets += 1
         Ticket.resolved_tickets -= 1
 
+    # To resolve password change request
     def resolve_password_change(self, new_password):
         if "Password Change" in self.description:
             self.response = f"Password changed to: {new_password}"
@@ -32,6 +37,7 @@ class Ticket:
             Ticket.open_tickets -= 1
             Ticket.resolved_tickets += 1
 
+    # Displaying ticket information
     def display_ticket_info(self):
         print(f"Ticket Number: {self.ticket_number}")
         print(f"Ticket Creator: {self.creator_name}")
@@ -41,6 +47,7 @@ class Ticket:
         print(f"Response: {self.response}")
         print(f"Ticket Status: {self.status}\n")
 
+    # Class method to display ticket statistics
     @classmethod
     def ticket_stats(cls):
         return f"Tickets Created: {cls.ticket_counter - 2000}\nTickets Resolved: {cls.resolved_tickets}\nTickets To Solve: {cls.open_tickets}"
@@ -49,7 +56,7 @@ class Ticket:
 def main():
     tickets = []
 
-    # Creating some sample tickets
+    # Creating tickets
     tickets.append(Ticket("AHSAN", "Ahsan Buksh", "ahsanB@gmail.com", "My monitor stopped working"))
     tickets.append(Ticket("AHMAD", "Amaan Ahmad", "amaanA@gmail.com", "Request for a videocamera to conduct webinars"))
     tickets.append(Ticket("AZIZ", "Musawwir Aziz", "musawwirA@gmail.com", "Password Change Request"))
