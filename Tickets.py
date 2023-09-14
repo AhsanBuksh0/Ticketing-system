@@ -48,7 +48,7 @@ class Ticket:
         print(f"Description: {self.description}")
         print(f"Response: {self.response}")
         if self.password:
-            print(f"Password: {self.password}")
+            print(f"Password: {self.password}")  # Include password information
         print(f"Ticket Status: {self.status}\n")
 
     # Class method to display ticket statistics
@@ -95,8 +95,8 @@ def main():
         elif choice == "3":
             # Resolve a password change request and change the password
             for i, ticket in enumerate(tickets, start=1):
-                if "Password Change" in ticket.description:
-                    print(f"{i}. Ticket Number: {ticket.ticket_number} (Status: {ticket.status})")
+                if "Password Change" in ticket.description:1
+                print(f"{i}. Ticket Number: {ticket.ticket_number} (Status: {ticket.status})")
             ticket_index = int(input("Enter the index of the Password Change Request to change the password: ")) - 1
             if 0 <= ticket_index < len(tickets):
                 new_password = input("Enter a new password: ")
