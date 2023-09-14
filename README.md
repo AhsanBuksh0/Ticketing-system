@@ -25,3 +25,39 @@ Upon running the program, you will see a main menu with the following options:
 6. **View Closed Tickets:** Display information about closed (resolved) tickets.
 0. **Exit:** Exit the program.
 
+**Creating a Ticket**
+1. Select option 1 from the main menu.
+2. Enter the requested information:
+    - Creator Name
+    - Staff ID
+    - Contact Email
+    - Description of the issue
+    - **NOTE** During creating the ticket for Password Change request remember that the 'P'and 'C' will be in Caps Lock eg."Password Change"
+3. The ticket will be created, and you will receive a confirmation message.
+
+**Resolving a Ticket**
+To resolve an open ticket, follow these steps:
+1. Select option 2 from the main menu.
+2. Choose the ticket you want to resolve by entering its index.
+3. Provide a response for the selected ticket.
+4. The ticket will be marked as resolved, and you will receive a confirmation message.
+
+**Changing Password for Password Change Request**
+**NOTE** During creating the ticket for Password Change request remember that the 'P'and 'C' will be in Caps Lock eg."Password Change" in the Description.
+To change the password for a "Password Change" request:
+1. Choose option (3) from the menu.
+2. Select the "Password Change" request you want to process by entering its index.
+3. The system will automatically generate a new password based on the specified rules.
+4. The ticket will be marked as "Closed," and the new password will be displayed.
+
+**Viewing Ticket**
+You can view ticket details and statistics using the following options:
+- **View All Tickets (4):** Displays all ticket details and statistics.
+- **View Open Tickets (5):** Displays open ticket details and statistics.
+- **View Closed Tickets (6):** Displays closed ticket details and statistics.
+
+**Exiting the system**
+To exit the program, select option 0 from the main menu. You will receive a confirmation message, and the program will exit.
+
+**CONCLUSION**
+The Help Desk Ticketing System provides a convenient way to manage support tickets for your organization's internal customers. Follow the provided instructions to create, resolve, and view tickets.
