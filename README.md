@@ -43,6 +43,7 @@ To resolve an open ticket, follow these steps:
 4. The ticket will be marked as resolved, and you will receive a confirmation message.
 
 **Changing Password for Password Change Request**
+
 **NOTE** During creating the ticket for Password Change request remember that the 'P'and 'C' will be in Caps Lock eg."Password Change" in the Description.
 To change the password for a "Password Change" request:
 1. Choose option (3) from the menu.
