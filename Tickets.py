@@ -15,6 +15,7 @@ class Ticket:
         self.response = "Not Yet Provided"
         self.status = "Open"
         Ticket.open_tickets += 1
+        self.password = None
 
     # Method to submit a response
     def submit_response(self, response):
@@ -36,6 +37,7 @@ class Ticket:
             self.status = "Closed"
             Ticket.open_tickets -= 1
             Ticket.resolved_tickets += 1
+            self.password = new_password
 
     # Displaying ticket information
     def display_ticket_info(self):
@@ -45,6 +47,8 @@ class Ticket:
         print(f"Email Address: {self.contact_email}")
         print(f"Description: {self.description}")
         print(f"Response: {self.response}")
+        if self.password:
+            print(f"Password: {self.password}")
         print(f"Ticket Status: {self.status}\n")
 
     # Class method to display ticket statistics
@@ -52,40 +56,83 @@ class Ticket:
     def ticket_stats(cls):
         return f"Tickets Created: {cls.ticket_counter - 2000}\nTickets Resolved: {cls.resolved_tickets}\nTickets To Solve: {cls.open_tickets}"
 
-# Function where the code/program starts execution 
+# Function where the code/program starts execution(main program)
 def main():
     tickets = []
 
-    # Creates three ticket by taking users input 
-    for i in range(3):
-        print(f"\nEnter Details for Ticket {i + 1}:")
+    while True:
+        # Display menu for user interaction
+        print("\nMenu:")
+        print("1. Create Ticket")
+        print("2. Resolve Ticket")
+        print("3. Change Password (if Password Change Request)")
+        print("4. View All Tickets")
+        print("5. View Open Tickets")
+        print("6. View Closed Tickets")
+        print("0. Exit")
+        choice = input("Enter your choice: ")
 
-        creator_name = input("Creator Name: ")
-        staff_id = input("Staff ID: ")
-        contact_email = input("Email Address: ")
-        description = input("Description: ")
+        if choice == "1":
+            #Creating new tickets
+            creator_name = input("Enter Creator Name: ")
+            staff_id = input("Enter Staff ID: ")
+            contact_email = input("Enter Email Address: ")
+            description = input("Enter Description: ")
 
-        tickets.append(Ticket(staff_id, creator_name, contact_email, description))
-
-    print("\nAll Three Tickets :")
-    for ticket in tickets:
-        ticket.display_ticket_info()
-
-    # Resolving Ticket 1
-    response = input("Enter response for Ticket 1: ")
-    tickets[0].submit_response(response)
-
-    # Changing password for Ticket 3
-    new_password = input("Enter a new password for Ticket 3: ")
-    tickets[2].resolve_password_change(new_password)
-
-    print("\nAll Three Tickets:")
-    for ticket in tickets:
-        ticket.display_ticket_info()
-
-    # Displaying ticket statistics
-    print("\nTicket Statistics:")
-    print(Ticket.ticket_stats())
+            tickets.append(Ticket(staff_id, creator_name, contact_email, description))
+            print("Ticket created successfully.")
+        elif choice == "2":
+            # Resolve a ticket
+            for i, ticket in enumerate(tickets, start=1):
+                print(f"{i}. Ticket Number: {ticket.ticket_number} (Status: {ticket.status})")
+            ticket_index = int(input("Enter the index of the ticket to resolve: ")) - 1
+            if 0 <= ticket_index < len(tickets):
+                response = input("Enter response for the selected ticket: ")
+                tickets[ticket_index].submit_response(response)
+                print("Ticket resolved successfully.")
+            else:
+                print("Invalid ticket index.")
+        elif choice == "3":
+            # Resolve a password change request and change the password
+            for i, ticket in enumerate(tickets, start=1):
+                if "Password Change" in ticket.description:
+                    print(f"{i}. Ticket Number: {ticket.ticket_number} (Status: {ticket.status})")
+            ticket_index = int(input("Enter the index of the Password Change Request to change the password: ")) - 1
+            if 0 <= ticket_index < len(tickets):
+                new_password = input("Enter a new password: ")
+                tickets[ticket_index].resolve_password_change(new_password)
+                print("Password changed successfully.")
+            else:
+                print("Invalid ticket index.")
+        elif choice == "4":
+            # View all tickets and the statistics
+            print("\nAll Tickets:")
+            for ticket in tickets:
+                ticket.display_ticket_info()
+            print("\nTicket Statistics:")
+            print(Ticket.ticket_stats())
+        elif choice == "5":
+            # Only view the open tickets with the statistics
+            print("\nOpen Tickets:\n")
+            for ticket in tickets:
+                if ticket.status == "Open":
+                    ticket.display_ticket_info()
+            print("\nTicket Statistics (Before Resolution and Password Change):\n")
+            print(Ticket.ticket_stats())
+        elif choice == "6":
+            # Only view the closed tickets and the statistics
+            print("\nClosed Tickets:\n")
+            for ticket in tickets:
+                if ticket.status == "Closed":
+                    ticket.display_ticket_info()
+            print("\nTicket Statistics (Before Resolution and Password Change):\n")
+            print(Ticket.ticket_stats())
+        elif choice == "0":
+            # Exting the program
+            print("Exiting the program.")
+            break
+        else:
+            print("Invalid choice. Please enter a valid option.")
 
 
 if __name__ == "__main__":
