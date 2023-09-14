@@ -29,7 +29,7 @@ class Ticket:
         Ticket.open_tickets += 1
         Ticket.resolved_tickets -= 1
 
-    # To resolve password change request
+    # To resolve password change request and close the ticket
     def resolve_password_change(self, new_password):
         if "Password Change" in self.description:
             self.response = f"Password changed to: {new_password}"
@@ -52,11 +52,41 @@ class Ticket:
     def ticket_stats(cls):
         return f"Tickets Created: {cls.ticket_counter - 2000}\nTickets Resolved: {cls.resolved_tickets}\nTickets To Solve: {cls.open_tickets}"
 
-
+# Function where the code/program starts execution 
 def main():
     tickets = []
 
-    # Creating tickets
-    tickets.append(Ticket("AHSAN", "Ahsan Buksh", "ahsanB@gmail.com", "My monitor stopped working"))
-    tickets.append(Ticket("AHMAD", "Amaan Ahmad", "amaanA@gmail.com", "Request for a videocamera to conduct webinars"))
-    tickets.append(Ticket("AZIZ", "Musawwir Aziz", "musawwirA@gmail.com", "Password Change Request"))
+    # Creates three ticket by taking users input 
+    for i in range(3):
+        print(f"\nEnter Details for Ticket {i + 1}:")
+
+        creator_name = input("Creator Name: ")
+        staff_id = input("Staff ID: ")
+        contact_email = input("Email Address: ")
+        description = input("Description: ")
+
+        tickets.append(Ticket(staff_id, creator_name, contact_email, description))
+
+    print("\nAll Three Tickets :")
+    for ticket in tickets:
+        ticket.display_ticket_info()
+
+    # Resolving Ticket 1
+    response = input("Enter response for Ticket 1: ")
+    tickets[0].submit_response(response)
+
+    # Changing password for Ticket 3
+    new_password = input("Enter a new password for Ticket 3: ")
+    tickets[2].resolve_password_change(new_password)
+
+    print("\nAll Three Tickets:")
+    for ticket in tickets:
+        ticket.display_ticket_info()
+
+    # Displaying ticket statistics
+    print("\nTicket Statistics:")
+    print(Ticket.ticket_stats())
+
+
+if __name__ == "__main__":
+    main()
