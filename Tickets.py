@@ -1,3 +1,6 @@
+import random
+import string
+
 # Class variables to keep track of ticket counts and statuses
 class Ticket:
     ticket_counter = 2000
@@ -24,20 +27,35 @@ class Ticket:
         Ticket.open_tickets -= 1
         Ticket.resolved_tickets += 1
 
-    #  Reopening a closed ticket
+    # Reopening a closed ticket
     def reopen_ticket(self):
         self.status = "Reopened"
         Ticket.open_tickets += 1
         Ticket.resolved_tickets -= 1
 
     # To resolve password change request and close the ticket
-    def resolve_password_change(self, new_password):
+    def resolve_password_change(self):
         if "Password Change" in self.description:
+            new_password = self.generate_password()
             self.response = f"Password changed to: {new_password}"
             self.status = "Closed"
             Ticket.open_tickets -= 1
             Ticket.resolved_tickets += 1
             self.password = new_password
+
+    # Generate a new password 
+    def generate_password(self):
+        # Extract the first two characters of staff ID and the first three characters of the ticket creator name
+        staff_id_chars = self.staff_id[:2]
+        creator_name_chars = self.creator_name[:3]
+
+        # Generate a random 3-character string 
+        random_chars = ''.join(random.choices(string.ascii_letters, k=3))
+
+        # create the new password
+        new_password = staff_id_chars + creator_name_chars + random_chars
+
+        return new_password
 
     # Displaying ticket information
     def display_ticket_info(self):
@@ -48,7 +66,7 @@ class Ticket:
         print(f"Description: {self.description}")
         print(f"Response: {self.response}")
         if self.password:
-            print(f"Password: {self.password}")  # Include password information
+            print(f"Password: {self.password}")
         print(f"Ticket Status: {self.status}\n")
 
     # Class method to display ticket statistics
@@ -95,12 +113,11 @@ def main():
         elif choice == "3":
             # Resolve a password change request and change the password
             for i, ticket in enumerate(tickets, start=1):
-                if "Password Change" in ticket.description:1
-                print(f"{i}. Ticket Number: {ticket.ticket_number} (Status: {ticket.status})")
+                if "Password Change" in ticket.description:
+                    print(f"{i}. Ticket Number: {ticket.ticket_number} (Status: {ticket.status})")
             ticket_index = int(input("Enter the index of the Password Change Request to change the password: ")) - 1
             if 0 <= ticket_index < len(tickets):
-                new_password = input("Enter a new password: ")
-                tickets[ticket_index].resolve_password_change(new_password)
+                tickets[ticket_index].resolve_password_change()
                 print("Password changed successfully.")
             else:
                 print("Invalid ticket index.")
@@ -133,7 +150,6 @@ def main():
             break
         else:
             print("Invalid choice. Please enter a valid option.")
-
 
 if __name__ == "__main__":
     main()
