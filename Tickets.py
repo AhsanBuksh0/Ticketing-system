@@ -79,11 +79,13 @@ def main():
     tickets = []
 
     while True:
-        # Display menu for user interaction
+        # Display a note before the menu
+        print("\nNote: During creating the ticket for Password Change request, remember that letter'P' and 'C' should be in Caps Lock, e.g., 'Password Change' in the Description.")
+        # Display menu for user 
         print("\nMenu:")
         print("1. Create Ticket")
         print("2. Resolve Ticket")
-        print("3. Change Password (if Password Change Request)")
+        print("3. Change Password (Password Change)")
         print("4. View All Tickets")
         print("5. View Open Tickets")
         print("6. View Closed Tickets")
@@ -95,7 +97,7 @@ def main():
             creator_name = input("Enter Creator Name: ")
             staff_id = input("Enter Staff ID: ")
             contact_email = input("Enter Email Address: ")
-            description = input("Enter Description: ")
+            description = input("Enter Description: ") 
 
             tickets.append(Ticket(staff_id, creator_name, contact_email, description))
             print("Ticket created successfully.")
