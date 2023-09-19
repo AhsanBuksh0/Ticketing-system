@@ -35,7 +35,7 @@ class Ticket:
 
     # To resolve password change request and close the ticket
     def resolve_password_change(self):
-        if "Password Change" in self.description:
+        if "password change" in self.description.lower():  # Case-insensitive comparison
             new_password = self.generate_password()
             self.response = f"Password changed to: {new_password}"
             self.status = "Closed"
@@ -43,16 +43,16 @@ class Ticket:
             Ticket.resolved_tickets += 1
             self.password = new_password
 
-    # Generate a new password 
+    # Generate a new password based on specified rules
     def generate_password(self):
         # Extract the first two characters of staff ID and the first three characters of the ticket creator name
         staff_id_chars = self.staff_id[:2]
         creator_name_chars = self.creator_name[:3]
 
-        # Generate a random 3-character string 
+        # Generate a random 3-character string for additional complexity
         random_chars = ''.join(random.choices(string.ascii_letters, k=3))
 
-        # create the new password
+        # Concatenate all parts to create the new password
         new_password = staff_id_chars + creator_name_chars + random_chars
 
         return new_password
@@ -79,13 +79,13 @@ def main():
     tickets = []
 
     while True:
-        # Display a note before the menu
+         # Display a note before the menu
         print("\nNote: During creating the ticket for Password Change request, remember that letter'P' and 'C' should be in Caps Lock, e.g., 'Password Change' in the Description.")
-        # Display menu for user 
+        # Display menu for user interaction
         print("\nMenu:")
         print("1. Create Ticket")
         print("2. Resolve Ticket")
-        print("3. Change Password (Password Change)")
+        print("3. Change Password (if Password Change Request)")
         print("4. View All Tickets")
         print("5. View Open Tickets")
         print("6. View Closed Tickets")
@@ -93,11 +93,11 @@ def main():
         choice = input("Enter your choice: ")
 
         if choice == "1":
-            #Creating new tickets
+            # Creating new tickets
             creator_name = input("Enter Creator Name: ")
             staff_id = input("Enter Staff ID: ")
             contact_email = input("Enter Email Address: ")
-            description = input("Enter Description: ") 
+            description = input("Enter Description: ")
 
             tickets.append(Ticket(staff_id, creator_name, contact_email, description))
             print("Ticket created successfully.")
@@ -113,10 +113,13 @@ def main():
             else:
                 print("Invalid ticket index.")
         elif choice == "3":
-            # Resolve a password change request and change the password
+            # Display a list of open tickets
+            print("Open Tickets:\n")
             for i, ticket in enumerate(tickets, start=1):
-                if "Password Change" in ticket.description:
+                if ticket.status == "Open":
                     print(f"{i}. Ticket Number: {ticket.ticket_number} (Status: {ticket.status})")
+            
+            # Resolve a password change request and change the password
             ticket_index = int(input("Enter the index of the Password Change Request to change the password: ")) - 1
             if 0 <= ticket_index < len(tickets):
                 tickets[ticket_index].resolve_password_change()
@@ -147,7 +150,7 @@ def main():
             print("\nTicket Statistics (Before Resolution and Password Change):\n")
             print(Ticket.ticket_stats())
         elif choice == "0":
-            # Exting the program
+            # Exiting the program
             print("Exiting the program.")
             break
         else:
@@ -155,3 +158,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+
